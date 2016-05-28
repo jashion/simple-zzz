@@ -1,0 +1,34 @@
+{
+  "initial": "",
+  "serviceList": [
+    {
+      "name": "sendVCode",
+      "path": "/sendVCode",
+      "realizeFile": "account",
+      "realizeFunction": "sendVCode",
+      "method": "post"
+    },
+    {
+      "name": "register",
+      "path": "/register",
+      "realizeFile": "account",
+      "realizeFunction": "register",
+      "method": "post"
+    },
+    {
+      "name": "login",
+      "path": "/login",
+      "realizeFile": "account",
+      "realizeFunction": "login",
+      "method": "post"
+    },
+    {
+      "name": "logout",
+      "path": "/logout",
+      "realizeFile": "account",
+      "realizeFunction": "logout",
+      "method": "post",
+      "auth": "authToken"
+    }
+  ]
+}

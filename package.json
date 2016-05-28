@@ -1,0 +1,11 @@
+{
+  "name": "simple-zzz",
+  "version": "1.0.0",
+  "description": "simple-zzz",
+  "author": "shasharoman",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^1.5.2",
+    "lodash": "^4.11.1"
+  }
+}
