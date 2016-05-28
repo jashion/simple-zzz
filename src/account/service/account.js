@@ -31,5 +31,5 @@ function login(req, res, callback) {
 }
 
 function logout(req, res, callback) {
-    authRequest.logout(req.body, callback);
+    authRequest.logout(_.assign({username: req.username}, req.body), callback);
 }
