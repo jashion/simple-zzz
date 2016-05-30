@@ -6,7 +6,24 @@
       "path": "/wechat",
       "realizeFile": "oauth",
       "realizeFunction": "enableDevMode",
-      "method": "get"
+      "method": "get",
+      "desc": "开启微信开发模式"
+    },
+    {
+      "name": "oauthLogin",
+      "path": "/:thirdParty/login",
+      "realizeFile": "oauth",
+      "realizeFunction": "oauthLogin",
+      "method": "get",
+      "desc": "第三方登陆"
+    },
+    {
+      "name": "oauthCallback",
+      "path": "/:thirdParty/callback",
+      "realizeFile": "oauth",
+      "realizeFunction": "oauthCallback",
+      "method": "get",
+      "desc": "第三登陆回调"
     }
   ]
 }
