@@ -5,7 +5,7 @@
       "name": "wechat",
       "path": "/wechat",
       "realizeFile": "oauth",
-      "realizeFunction": "wechat",
+      "realizeFunction": "enableDevMode",
       "method": "get"
     }
   ]
