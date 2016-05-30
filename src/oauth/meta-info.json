@@ -1,0 +1,12 @@
+{
+  "initial": "",
+  "serviceList": [
+    {
+      "name": "wechat",
+      "path": "/wechat",
+      "realizeFile": "oauth",
+      "realizeFunction": "wechat",
+      "method": "get"
+    }
+  ]
+}
