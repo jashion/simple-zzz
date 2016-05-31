@@ -6,7 +6,7 @@
 * method: POST
 * body: {phoneNumber: string, reason: string}  
 ```
-    reason: 注册-register
+    reason: 注册-register, 重置密码-resetPassword
 ```
 * res: {code, result}  
 ```
@@ -44,4 +44,22 @@
 * auth: authToken  
 ```
     授权才能调用的接口, 需要在请求头中附带x-token
+```
+
+## updatePassword
+* 登陆状态下使用老密码修改密码
+* url: /svc/zzz/password/update
+* method: POST
+* body: {oldPassword: string, newPassword: string}
+* res: {code, result}
+* auth: authToken
+
+## resetPassword
+* 手机帐号通过验证码重置密码
+* url: /svc/zzz/password/reset
+* method: POST
+* body: {username: string, password: string, code: string}
+* res: {code, result}
+```
+    先使用sendVCode发送验证码, reason为resetPassword
 ```

@@ -1,31 +1,39 @@
-var request = require(global.frameworkLibPath + '/utils/innerRequest');
+var innerRequest = require(global.frameworkLibPath + '/utils/innerRequest');
 var authUrl = global.appEnv.authUrl;
 
-exports.sendVCode = sendVCode;
+// all function just one variable different~~~
 exports.register = register;
 exports.login = login;
 exports.logout = logout;
-
-function sendVCode(data, callback) {
-    var url = authUrl + '/svc/auth/sendVCode';
-
-    request.post(url, data, callback);
-}
+exports.checkPassword = checkPassword;
+exports.updatePassword = updatePassword;
 
 function register(data, callback) {
     var url = authUrl + '/svc/auth/register';
 
-    request.post(url, data, callback);
+    innerRequest.post(url, data, callback);
 }
 
 function login(data, callback) {
     var url = authUrl + '/svc/auth/login';
 
-    request.post(url, data, callback);
+    innerRequest.post(url, data, callback);
 }
 
 function logout(data, callback) {
     var url = authUrl + '/svc/auth/logout';
 
-    request.post(url, data, callback);
+    innerRequest.post(url, data, callback);
+}
+
+function checkPassword(data, callback) {
+    var url = authUrl + '/svc/auth/password/check';
+
+    innerRequest.post(url, data, callback);
+}
+
+function updatePassword(data, callback) {
+    var url = authUrl + '/svc/auth/password/update';
+
+    innerRequest.post(url, data, callback);
 }

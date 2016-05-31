@@ -29,6 +29,23 @@
       "realizeFunction": "logout",
       "method": "post",
       "auth": "authToken"
+    },
+    {
+      "name": "updatePassword",
+      "path": "/password/update",
+      "realizeFile": "account",
+      "realizeFunction": "updatePassword",
+      "method": "post",
+      "auth": "authToken",
+      "desc": "登陆状态下使用老密码修改密码"
+    },
+    {
+      "name": "resetPassword",
+      "path": "/password/reset",
+      "realizeFile": "account",
+      "realizeFunction": "resetPassword",
+      "method": "post",
+      "desc": "手机帐号通过验证码重置密码"
     }
   ]
 }
