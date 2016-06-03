@@ -28,7 +28,9 @@
       "realizeFile": "account",
       "realizeFunction": "logout",
       "method": "post",
-      "auth": "authToken"
+      "middleware": [
+        "authCheck"
+      ]
     },
     {
       "name": "updatePassword",
@@ -36,7 +38,9 @@
       "realizeFile": "account",
       "realizeFunction": "updatePassword",
       "method": "post",
-      "auth": "authToken",
+      "middleware": [
+        "authCheck"
+      ],
       "desc": "登陆状态下使用老密码修改密码"
     },
     {
