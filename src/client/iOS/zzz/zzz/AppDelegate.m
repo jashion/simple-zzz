@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "HomePageVC.h"
+#import "HomePageController.h"
 
 @interface AppDelegate ()
 
@@ -18,7 +18,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame: [UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
-    HomePageVC *homeVC = [[HomePageVC alloc] init];
+    HomePageController *homeVC = [[HomePageController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController: homeVC];
     self.window.rootViewController = nav;
     [self.window makeKeyAndVisible];

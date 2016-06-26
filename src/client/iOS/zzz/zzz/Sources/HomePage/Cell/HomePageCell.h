@@ -1,13 +1,13 @@
 //
-//  HomePageVC.h
+//  HomePageCell.h
 //  zzz
 //
-//  Created by jashion on 16/6/25.
+//  Created by jashion on 16/6/26.
 //  Copyright © 2016年 BMu. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface HomePageVC : UIViewController
+@interface HomePageCell : UITableViewCell
 
 @end
