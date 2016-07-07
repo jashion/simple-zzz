@@ -10,5 +10,9 @@
 * 微信openId+accessToken登陆
 * url: /svc/zzz/wechat/login
 * method: POST
-* res: {code, result: {token}}
-
+* body: {userId: string, accessToken: string, expiresIn: number}  
+```
+    userId: 微信用户的openId
+    expiresIn: 登陆有效时长(秒)
+```
+* res: {code, result: {token: string, isThirdParty: boolean, expireTime: number}}

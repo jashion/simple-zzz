@@ -33,7 +33,7 @@
     duration: 登陆有效时长, 单位秒  
     kickOut: 传值表明将其他同类型设备踢出
 ```
-* res: {code, result: {token: string}}
+* res: {code, result: {token: string, isThirdParty: boolean, expireTime: number}}
 
 ## logout
 * 登出
