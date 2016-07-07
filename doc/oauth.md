@@ -13,6 +13,7 @@
 * body: {userId: string, accessToken: string, expiresIn: number}  
 ```
     userId: 微信用户的openId
+    accessToken: 客户端按照微信登陆开发文档获得的access_token
     expiresIn: 登陆有效时长(秒)
 ```
 * res: {code, result: {token: string, isThirdParty: boolean, expireTime: number}}
