@@ -9,6 +9,7 @@ exports.login = login;
 exports.logout = logout;
 exports.updatePassword = updatePassword;
 exports.resetPassword = resetPassword;
+exports.loginInfo = loginInfo;
 
 function sendVCode(req, res, callback) {
     // todo 受信验证
@@ -61,7 +62,12 @@ function login(req, res, callback) {
 }
 
 function logout(req, res, callback) {
-    authRequest.logout(_.assign({username: req.username}, req.body), callback);
+    var data = {
+        username: req.username,
+        token: req.headers['x-token']
+    };
+
+    authRequest.logout(_.assign(data, req.body), callback);
 }
 
 function updatePassword(req, res, callback) {
@@ -124,6 +130,10 @@ function resetPassword(req, res, callback) {
 
         authRequest.updatePassword(data, callback);
     }
+}
+
+function loginInfo(req, res, callback) {
+    callback(null);
 }
 
 function isMail(username) {

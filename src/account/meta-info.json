@@ -50,6 +50,17 @@
       "realizeFunction": "resetPassword",
       "method": "post",
       "desc": "手机帐号通过验证码重置密码"
+    },
+    {
+      "name": "loginInfo",
+      "path": "/loginInfo",
+      "realizeFile": "account",
+      "realizeFunction": "loginInfo",
+      "method": "get",
+      "middleware": [
+        "authCheck"
+      ],
+      "desc": "获取登陆信息"
     }
   ]
 }
