@@ -8,7 +8,9 @@
       "realizeFunction": "addOrUpdate",
       "method": "post",
       "middleware": [
-        "authCheck"
+        {
+          "name": "authCheck"
+        }
       ]
     },
     {
@@ -18,7 +20,9 @@
       "realizeFunction": "userInfo",
       "method": "get",
       "middleware": [
-        "authCheck"
+        {
+          "name": "authCheck"
+        }
       ]
     }
   ]

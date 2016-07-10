@@ -29,7 +29,9 @@
       "realizeFunction": "logout",
       "method": "post",
       "middleware": [
-        "authCheck"
+        {
+          "name": "authCheck"
+        }
       ]
     },
     {
@@ -39,7 +41,9 @@
       "realizeFunction": "updatePassword",
       "method": "post",
       "middleware": [
-        "authCheck"
+        {
+          "name": "authCheck"
+        }
       ],
       "desc": "登陆状态下使用老密码修改密码"
     },
@@ -58,7 +62,9 @@
       "realizeFunction": "loginInfo",
       "method": "get",
       "middleware": [
-        "authCheck"
+        {
+          "name": "authCheck"
+        }
       ],
       "desc": "获取登陆信息"
     }
