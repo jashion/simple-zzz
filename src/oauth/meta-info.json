@@ -11,7 +11,7 @@
     },
     {
       "name": "oauthLogin",
-      "path": "/:thirdParty/login",
+      "path": "/oauth/:thirdParty/login",
       "realizeFile": "oauth",
       "realizeFunction": "oauthLogin",
       "method": "post",
@@ -19,7 +19,7 @@
     },
     {
       "name": "webOauthLogin",
-      "path": "/web/:thirdParty/login",
+      "path": "/oauth/web/:thirdParty/login",
       "realizeFile": "oauth",
       "realizeFunction": "webOauthLogin",
       "method": "get",
@@ -27,7 +27,7 @@
     },
     {
       "name": "oauthCallback",
-      "path": "/:thirdParty/callback",
+      "path": "/oauth/:thirdParty/callback",
       "realizeFile": "oauth",
       "realizeFunction": "oauthCallback",
       "method": "get",

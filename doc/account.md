@@ -41,7 +41,7 @@
 * method: POST
 * body: {}
 * res: {code, result}
-* auth: authToken  
+* auth: x-token  
 ```
     授权才能调用的接口, 需要在请求头中附带x-token
 ```
@@ -52,7 +52,7 @@
 * method: POST
 * body: {oldPassword: string, newPassword: string}
 * res: {code, result}
-* auth: authToken
+* auth: x-token
 
 ## resetPassword
 * 手机帐号通过验证码重置密码

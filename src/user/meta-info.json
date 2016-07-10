@@ -1,0 +1,25 @@
+{
+  "initial": "initial/index",
+  "serviceList": [
+    {
+      "name": "addOrUpdateUser",
+      "path": "/user/addOrUpdate",
+      "realizeFile": "user",
+      "realizeFunction": "addOrUpdate",
+      "method": "post",
+      "middleware": [
+        "authCheck"
+      ]
+    },
+    {
+      "name": "userInfo",
+      "path": "/user",
+      "realizeFile": "user",
+      "realizeFunction": "userInfo",
+      "method": "get",
+      "middleware": [
+        "authCheck"
+      ]
+    }
+  ]
+}

@@ -2,13 +2,13 @@
 
 ## webWechatLogin
 * 微信app内网页授权
-* url: /svc/zzz/web/wechat/login
+* url: /svc/zzz/oauth/web/wechat/login
 * method: GET  
 * res: {code, result}
 
 ## wechatLogin
 * 微信openId+accessToken登陆
-* url: /svc/zzz/wechat/login
+* url: /svc/zzz/oauth/wechat/login
 * method: POST
 * body: {userId: string, accessToken: string, expiresIn: number}  
 ```
