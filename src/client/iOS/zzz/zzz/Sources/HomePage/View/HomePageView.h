@@ -10,6 +10,8 @@
 
 @interface HomePageView : UIView
 
+@property (nonatomic, strong) UITableView *homePageTableView;
+
 - (instancetype)initWithController: (UIViewController *)controller;
 
 @end

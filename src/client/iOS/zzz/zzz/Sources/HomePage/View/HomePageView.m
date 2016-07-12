@@ -8,10 +8,12 @@
 
 #import "HomePageView.h"
 #import "HomePageController.h"
+#import "HomePageCell.h"
 
 @interface HomePageView ()
 
-@property (nonatomic, strong) HomePageController *controller;
+@property (nonatomic, weak) HomePageController *controller;
+@property (nonatomic, copy) void(^block)();
 
 @end
 
@@ -22,8 +24,19 @@
     if (self) {
         _controller = (HomePageController *)controller;
         self.backgroundColor = [UIColor whiteColor];
+        [self initalizeView];
     }
     return self;
+}
+
+- (void)initalizeView {
+    _homePageTableView = [[UITableView alloc] initWithFrame: [UIScreen mainScreen].bounds style: UITableViewStylePlain];
+    _homePageTableView.backgroundColor = [UIColor whiteColor];
+    _homePageTableView.dataSource = _controller;
+    _homePageTableView.delegate = _controller;
+    _homePageTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [_homePageTableView registerClass: [HomePageCell class] forCellReuseIdentifier: NSStringFromClass([HomePageCell class])];
+    [self addSubview: _homePageTableView];
 }
 
 @end
