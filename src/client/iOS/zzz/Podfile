@@ -1,0 +1,7 @@
+workspace 'zzz'
+xcodeproj 'zzz.xcodeproj'
+
+target 'zzz' do
+    platform :ios, '7.0'
+    pod 'Masonry'
+end
