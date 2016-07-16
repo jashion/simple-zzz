@@ -36,6 +36,7 @@
     CGContextTranslateCTM(context, 0, - rect.size.height);
     
     
+    
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return image;

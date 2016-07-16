@@ -7,12 +7,25 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BMUtility.h"
 
-#define BMScreenSize        [UIScreen mainScreen].bounds.size
-#define PostProfileSize     CGSizeMake(BMScreenSize.width, 60)
-#define PostCardViewSize    CGSizeMake(BMScreenSize.width, BMScreenSize.width + 30)
-#define PostCommentViewSize CGSizeMake(BMScreenSize.width, 50 * 3)
-#define PostToolBarViewSize CGSizeMake(BMScreenSize.width, 60)
+#define PostProfileSize     CGSizeMake(kScreenWidth, 60)
+#define PostCardViewSize    CGSizeMake(kScreenWidth, kScreenWidth + 30)
+#define PostCommentViewSize CGSizeMake(kScreenWidth, 40 * 4)
+#define PostToolBarViewSize CGSizeMake(kScreenWidth, 60)
+#define ButtonSize          CGSizeMake(70, 40)
+
+static const NSInteger likeTag = 0;
+static const NSInteger commentTag = 1;
+static const NSInteger shareTag = 2;
+
+typedef NS_ENUM(NSUInteger, HomePageClickType) {
+    HomePageClickTypeLike       =   0,
+    HomePageClickTypeComment    =   1,
+    HomePageClickTypeShare      =   2,
+    HomePageClickTypePhoto      =   3,
+    HomePageClickTypeUrl        =   4
+};
 
 @class HomePageCell;
 @protocol HomePageCellDelegate;
@@ -34,21 +47,18 @@
 
 @end
 
-@interface PostCommentView : UIView
+@interface PostCommentView : UIView<UITableViewDataSource, UITableViewDelegate>
 
+@property (nonatomic, strong) UIButton *like;
+@property (nonatomic, strong) UIImageView *likeIcon;
+@property (nonatomic, strong) UILabel *likeNum;
+@property (nonatomic, strong) UIButton *comment;
+@property (nonatomic, strong) UIImageView *commentIcon;
+@property (nonatomic, strong) UILabel *commentNum;
+@property (nonatomic, strong) UIButton *share;
+@property (nonatomic, strong) UIImageView *shareIcon;
 @property (nonatomic, strong) UITableView *commentContainer;
 @property (nonatomic, weak) HomePageCell *cell;
-
-
-@end
-
-@interface PostToolBarView : UIView
-
-@property (nonatomic, strong) UIButton *comment;
-@property (nonatomic, strong) UIButton *like;
-@property (nonatomic, strong) UIButton *share;
-@property (nonatomic, weak) HomePageCell *cell;
-
 
 @end
 
@@ -58,11 +68,11 @@
 @property (nonatomic, strong) PostProfileView *postProfileView;
 @property (nonatomic, strong) PostCardView *postCardView;
 @property (nonatomic, strong) PostCommentView *postCommentView;
-@property (nonatomic, strong) PostToolBarView *postToolBarView;
 
 @end
 
 @protocol HomePageCellDelegate <NSObject>
 
+- (void)onClickObject: (id)onClickObject withType: (HomePageClickType)clickType;
 
 @end

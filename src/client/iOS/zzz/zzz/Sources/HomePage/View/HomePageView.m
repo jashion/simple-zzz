@@ -30,8 +30,8 @@
 }
 
 - (void)initalizeView {
-    _homePageTableView = [[UITableView alloc] initWithFrame: [UIScreen mainScreen].bounds style: UITableViewStylePlain];
-    _homePageTableView.backgroundColor = [UIColor whiteColor];
+    _homePageTableView = [[UITableView alloc] initWithFrame: [UIScreen mainScreen].bounds style: UITableViewStyleGrouped];
+    _homePageTableView.backgroundColor = [UIColor colorWithRed:0.949 green:0.945 blue:0.925 alpha:1.000];
     _homePageTableView.dataSource = _controller;
     _homePageTableView.delegate = _controller;
     _homePageTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
