@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "BMUtility.h"
+#import "BMPhotosLayoutView.h"
 
 #define PostProfileSize     CGSizeMake(kScreenWidth, 60)
 #define PostCardViewSize    CGSizeMake(kScreenWidth, kScreenWidth + 30)
@@ -41,7 +42,7 @@ typedef NS_ENUM(NSUInteger, HomePageClickType) {
 
 @interface PostCardView: UIView
 
-@property (nonatomic, strong) UIImageView *photoContainer;
+@property (nonatomic, strong) BMPhotosLayoutView *photoContainer;
 @property (nonatomic, strong) UILabel *photoDes;
 @property (nonatomic, weak) HomePageCell *cell;
 
@@ -68,6 +69,8 @@ typedef NS_ENUM(NSUInteger, HomePageClickType) {
 @property (nonatomic, strong) PostProfileView *postProfileView;
 @property (nonatomic, strong) PostCardView *postCardView;
 @property (nonatomic, strong) PostCommentView *postCommentView;
+
+- (void)setupPhotos: (NSDictionary *)photosDict;
 
 @end
 

@@ -54,9 +54,10 @@
         return nil;
     }
     
-    _photoContainer = [[UIImageView alloc] initWithFrame: CGRectMake(0, 0, frame.size.width, frame.size.width)];
-    _photoContainer.image = [UIImage imageNamed:@"cat.jpg"];
-    _photoContainer.contentMode = UIViewContentModeScaleAspectFill;
+    _photoContainer = [[BMPhotosLayoutView alloc] initWithFrame: CGRectMake(0, 0, frame.size.width, frame.size.width) photos: @[] layoutType: BMFivePhotoPointToPointBottomLayout];
+    _photoContainer.tapPhotoBlock = ^(NSArray *photos, NSInteger currentIndex){
+        NSLog(@"currentIndex: %ld", currentIndex);
+    };
     [self addSubview: _photoContainer];
     
     _photoDes = [[UILabel alloc] initWithFrame: CGRectMake(10, frame.size.width, frame.size.width - 20, frame.size.height - frame.size.width)];
@@ -263,6 +264,10 @@
     [self.contentView addSubview: _postCardView];
     [self.contentView addSubview: _postCommentView];
     return self;
+}
+
+- (void)setupPhotos: (NSDictionary *)photosDict {
+    [self.postCardView.photoContainer setUpPhotos: [photosDict objectForKey: @"photos"] layoutType: [[photosDict objectForKey: @"type"] integerValue]];
 }
 
 @end

@@ -18,6 +18,7 @@
     if (rect.size.width <=0 || rect.size.height <= 0) {
         return nil;
     }
+    
     CGImageRef imageRef = CGImageCreateWithImageInRect(self.CGImage, rect);
     UIImage *image = [UIImage imageWithCGImage: imageRef scale: self.scale orientation: self.imageOrientation];
     CGImageRelease(imageRef);
@@ -35,7 +36,26 @@
     CGContextScaleCTM(context, 1, - 1);
     CGContextTranslateCTM(context, 0, - rect.size.height);
     
+    CGFloat minSize = MIN(self.size.width, self.size.height);
+    if (borderWidth < minSize / 2) {
+        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: CGRectInset(rect, borderWidth, borderWidth) byRoundingCorners: radius cornerRadii: CGSizeMake(radius, radius)];
+        [path closePath];
+        
+        CGContextSaveGState(context);
+        [path addClip];
+        CGContextDrawImage(context, rect, self.CGImage);
+        CGContextRestoreGState(context);
+    }
     
+    if (borderWidth < minSize / 2 && borderWidth > 0 && borderColor) {
+        CGRect strokeRect = CGRectInset(rect, borderWidth / 2, borderWidth / 2);
+        UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect: strokeRect byRoundingCorners: radius cornerRadii: CGSizeMake(radius, radius)];
+        [path closePath];
+        path.lineJoinStyle = borderLineJoin;
+        path.lineWidth = borderWidth;
+        [borderColor setStroke];
+        [path stroke];
+    }
     
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

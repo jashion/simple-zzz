@@ -25,6 +25,9 @@ typedef NS_ENUM(NSUInteger, TableViewScrollDirection) {
 @end
 
 @implementation HomePageController
+{
+    NSArray *photos;
+}
 
 #pragma mark - LifeCycle
 
@@ -32,10 +35,44 @@ typedef NS_ENUM(NSUInteger, TableViewScrollDirection) {
     self = [super init];
     if (self) {
         self.navigationItem.title = @"绒么么";
-        _homePageDataArray = @[].mutableCopy;
-        for (NSInteger index = 0; index < 10; index++) {
-            [_homePageDataArray addObject: @(index)];
-        }
+//        _homePageDataArray = @[].mutableCopy;
+//        for (NSInteger index = 0; index < 14; index++) {
+//            [_homePageDataArray addObject: @(index)];
+//        }
+        
+        photos = @[@{@"photos" : @[[UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(0)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(1)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(2)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(3)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(4)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(5)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(6)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(7)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(8)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(9)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(10)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(11)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(12)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(13)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(14)},
+                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                     @"type"   : @(15)}];
+        _homePageDataArray = [[NSMutableArray alloc] initWithArray: photos];
     }
     return self;
 }
@@ -47,7 +84,6 @@ typedef NS_ENUM(NSUInteger, TableViewScrollDirection) {
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationController.hidesBarsOnSwipe = YES;
 }
 
 #pragma mark - Refresh Data Method
@@ -77,6 +113,7 @@ typedef NS_ENUM(NSUInteger, TableViewScrollDirection) {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HomePageCell *cell = [tableView dequeueReusableCellWithIdentifier: NSStringFromClass([HomePageCell class])];
     cell.delegate = self;
+    [cell setupPhotos: self.homePageDataArray[indexPath.section]];
     return cell;
 }
 
