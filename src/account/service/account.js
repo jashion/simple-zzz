@@ -1,19 +1,19 @@
 var _ = require('lodash');
 var async = require('async');
 var innerRequest = require(global.frameworkLibPath + '/utils/innerRequest');
-var authRequest = require('./authRequest');
 
 exports.sendVCode = sendVCode;
 exports.register = register;
+exports.mailRegister = mailRegister;
 exports.login = login;
 exports.logout = logout;
 exports.updatePassword = updatePassword;
 exports.resetPassword = resetPassword;
-exports.loginInfo = loginInfo;
+exports.tokenInfo = tokenInfo;
+exports.deleteAccount = deleteAccount;
 
 function sendVCode(req, res, callback) {
     // todo 受信验证
-
     var url = global.appEnv.smsUrl + '/svc/sms/sendVCode';
 
     innerRequest.post(url, req.body, callback);
@@ -21,6 +21,8 @@ function sendVCode(req, res, callback) {
 
 function register(req, res, callback) {
     var username = req.body.username;
+    var autoLogin = req.body.autoLogin || false;
+    var accountId = '';
 
     async.series([_verificationCode, _register], function (err) {
         if (err) {
@@ -28,20 +30,15 @@ function register(req, res, callback) {
             return;
         }
 
-        if (_.isUndefined(req.body.autoLogin)) {
-            callback(null);
+        if (autoLogin) {
+            login(req, res, callback);
             return;
         }
 
-        login(req, res, callback);
+        callback(null, {accountId: accountId});
     });
 
     function _verificationCode(callback) {
-        if (isMail(username)) {
-            process.nextTick(callback);
-            return;
-        }
-
         var url = global.appEnv.smsUrl + '/svc/sms/checkVCode';
         var data = {
             phoneNumber: username,
@@ -53,51 +50,82 @@ function register(req, res, callback) {
     }
 
     function _register(callback) {
-        authRequest.register(req.body, callback);
+        var url = global.appEnv.authUrl + '/svc/auth/register';
+        innerRequest.post(url, req.body, function (err, result) {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            accountId = result.accountId;
+            callback(null);
+        });
     }
 }
 
+function mailRegister(req, res, callback) {
+    var autoLogin = req.body.autoLogin || false;
+
+    var url = global.appEnv.authUrl + '/svc/auth/register';
+    innerRequest.post(url, req.body, function (err, result) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        if (autoLogin) {
+            login(req, res, callback);
+            return;
+        }
+
+        callback(null, result);
+    });
+}
+
 function login(req, res, callback) {
-    authRequest.login(req.body, callback);
+    var url = global.appEnv.authUrl + '/svc/auth/login';
+    innerRequest.post(url, req.body, callback);
 }
 
 function logout(req, res, callback) {
     var data = {
-        username: req.username,
         token: req.headers['x-token']
     };
 
-    authRequest.logout(_.assign(data, req.body), callback);
+    _.assign(data, req.body);
+
+    var url = global.appEnv.authUrl + '/svc/auth/logout';
+    innerRequest.post(url, data, callback);
 }
 
 function updatePassword(req, res, callback) {
-    var username = req.username;
-    var oldPassword = req.body.oldPassword;
+    var username = req.body.username;
     var newPassword = req.body.newPassword;
+    var reLogin = req.body.reLogin || true;
 
-    if (_.isEmpty(newPassword)) {
-        callback(null, {code: 1, result: '新密码不能为空'});
-        return;
-    }
+    var url = global.appEnv.authUrl + '/svc/auth/password/update';
+    innerRequest.post(url, req.body, function (err) {
+        if (err) {
+            callback(err);
+            return;
+        }
 
-    async.series([_check, _update], callback);
+        if (!reLogin) {
+            callback(null);
+            return;
+        }
 
-    function _check(callback) {
-        var data = {
-            username: username,
-            password: oldPassword
-        };
+        _login(callback);
+    });
 
-        authRequest.checkPassword(data, callback);
-    }
-
-    function _update(callback) {
+    function _login(callback) {
         var data = {
             username: username,
             password: newPassword
         };
 
-        authRequest.updatePassword(data, callback);
+        var url = global.appEnv.authUrl + '/svc/auth/login';
+        innerRequest.post(url, data, callback);
     }
 }
 
@@ -128,12 +156,21 @@ function resetPassword(req, res, callback) {
             password: req.body.password
         };
 
-        authRequest.updatePassword(data, callback);
+        var url = global.appEnv.authUrl + '/svc/auth/password/reset';
+        innerRequest.post(url, data, callback);
     }
 }
 
-function loginInfo(req, res, callback) {
-    callback(null);
+function tokenInfo(req, res, callback) {
+    var url = global.appEnv.authUrl + '/svc/auth/token/' + encodeURIComponent(req.headers['x-token']);
+    innerRequest.get(url, callback);
+}
+
+function deleteAccount(req, res, callback) {
+    var accountId = req.accountId;
+
+    var url = global.appEnv.authUrl + '/svc/auth/account/delete';
+    innerRequest.post(url, {accountId: accountId}, callback);
 }
 
 function isMail(username) {

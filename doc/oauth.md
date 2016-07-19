@@ -1,19 +1,46 @@
-# oauth相关接口说明
+#oauth
 
-## webWechatLogin
-* 微信app内网页授权
-* url: /svc/zzz/oauth/web/wechat/login
-* method: GET  
-* res: {code, result}
+## wechat
+* `comment`: 开启微信开发模式
+* `url`: /wechat
+* `method`: get
+* `query`: {signature: string|required, timestamp: string|required, nonce: string|required, echostr: string|required}
+* `res`: string
+```
+校验通过原样返回echostr
+```
 
 ## wechatLogin
-* 微信openId+accessToken登陆
-* url: /svc/zzz/oauth/wechat/login
-* method: POST
-* body: {userId: string, accessToken: string, expiresIn: number}  
+* `comment`: 微信登录
+* `url`: /oauth/wechat/login
+* `method`: post
+* `body`: {openId: string|required, accessToken: string|required, duration: number|default: 3600 * 24 * 30}
 ```
-    userId: 微信用户的openId
-    accessToken: 客户端按照微信登陆开发文档获得的access_token
-    expiresIn: 登陆有效时长(秒)
+duration: 单位秒
 ```
-* res: {code, result: {token: string, isThirdParty: boolean, expireTime: number}}
+* `res`: {code: number, result: {accountId: string, expireTime: number, token: string, isTemporary: boolean}}
+```
+accountId: 若已绑定平台账户, 结果为平台帐号id, 否则为用户unionId或openId
+```
+
+## webWechatLogin
+* `comment`: 微信app内redirect到授权页面
+* `url`: /oauth/web/wechat/login
+* `method`: get
+
+## wechatCallback
+* `comment`: 微信用户授权后回调
+* `url`: /oauth/wechat/callback
+* `method`: get
+* `res`: {code: number, result: {userInfo: {}, isBound: string}}
+```
+userInfo: 微信公开信息
+isBound: 是否已绑定平台帐号
+```
+
+## thirdPartyBind
+* `comment`: 第三方帐号绑定
+* `url`: /oauth/thirdParty/bind
+* `method`: post
+* `body`: {openId: string|required, openIdToken: string|required, accountId: string|required, accountIdToken: string|required}
+* `res`: {code: number, result: {}}

@@ -7,31 +7,93 @@
       "realizeFile": "oauth",
       "realizeFunction": "wechatEnableDevMode",
       "method": "get",
-      "desc": "开启微信开发模式"
+      "comment": "开启微信开发模式",
+      "query": {
+        "signature": "string|required",
+        "timestamp": "string|required",
+        "nonce": "string|required",
+        "echostr": "string|required"
+      },
+      "res": "string",
+      "resComment": "校验通过原样返回echostr"
     },
     {
-      "name": "oauthLogin",
-      "path": "/oauth/:thirdParty/login",
+      "name": "wechatLogin",
+      "path": "/oauth/wechat/login",
       "realizeFile": "oauth",
-      "realizeFunction": "oauthLogin",
+      "realizeFunction": "wechatLogin",
       "method": "post",
-      "desc": "第三方登陆"
+      "comment": "微信登录",
+      "body": {
+        "openId": "string|required",
+        "accessToken": "string|required",
+        "duration": "number|default: 3600 * 24 * 30"
+      },
+      "res": {
+        "code": "number",
+        "result": {
+          "accountId": "string",
+          "expireTime": "number",
+          "token": "string",
+          "isTemporary": "boolean"
+        }
+      },
+      "bodyComment": {
+        "duration": "单位秒"
+      },
+      "resComment": {
+        "accountId": "若已绑定平台账户, 结果为平台帐号id, 否则为用户unionId或openId"
+      }
     },
     {
-      "name": "webOauthLogin",
-      "path": "/oauth/web/:thirdParty/login",
+      "name": "webWechatLogin",
+      "path": "/oauth/web/wechat/login",
       "realizeFile": "oauth",
-      "realizeFunction": "webOauthLogin",
+      "realizeFunction": "webWechatLogin",
       "method": "get",
-      "desc": "网页第三方登陆"
+      "comment": "微信app内redirect到授权页面"
     },
     {
-      "name": "oauthCallback",
-      "path": "/oauth/:thirdParty/callback",
+      "name": "wechatCallback",
+      "path": "/oauth/wechat/callback",
       "realizeFile": "oauth",
-      "realizeFunction": "oauthCallback",
+      "realizeFunction": "wechatCallback",
       "method": "get",
-      "desc": "第三登陆回调"
+      "comment": "微信用户授权后回调",
+      "res": {
+        "code": "number",
+        "result": {
+          "userInfo": {},
+          "isBound": "string"
+        }
+      },
+      "resComment": {
+        "userInfo": "微信公开信息",
+        "isBound": "是否已绑定平台帐号"
+      }
+    },
+    {
+      "name": "thirdPartyBind",
+      "path": "/oauth/thirdParty/bind",
+      "realizeFile": "oauth",
+      "realizeFunction": "thirdPartyBind",
+      "method": "post",
+      "middleware": [
+        {
+          "name": "authCheck"
+        }
+      ],
+      "comment": "第三方帐号绑定",
+      "body": {
+        "openId": "string|required",
+        "openIdToken": "string|required",
+        "accountId": "string|required",
+        "accountIdToken": "string|required"
+      },
+      "res": {
+        "code": "number",
+        "result": {}
+      }
     }
   ]
 }

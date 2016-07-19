@@ -11,7 +11,24 @@
         {
           "name": "authCheck"
         }
-      ]
+      ],
+      "comment": "添加或更新用户信息",
+      "body": {
+        "user": {
+          "id": "string|default: ''",
+          "nickname": "string|default: ''",
+          "head_portrait": "string|default: ''"
+        }
+      },
+      "bodyComment": {
+        "user": "when id is empty then new else update by id"
+      },
+      "res": {
+        "code": "number",
+        "result": {
+          "user": {}
+        }
+      }
     },
     {
       "name": "userInfo",
@@ -23,7 +40,13 @@
         {
           "name": "authCheck"
         }
-      ]
+      ],
+      "res": {
+        "code": "number",
+        "result": {
+          "user": {}
+        }
+      }
     }
   ]
 }

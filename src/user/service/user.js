@@ -17,12 +17,19 @@ function addOrUpdate(req, res, callback) {
 
     var isNew = _.isEmpty(user.id);
     var isUpdate = !isNew;
-    var accountId = req.username;
+    var accountId = req.accountId;
 
-    async.series([_accountId, _newOrUpdate], callback);
+    async.series([_accountId, _newOrUpdate], function (err) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        callback(null, {user: user});
+    });
 
     function _accountId(callback) {
-        var url = global.appEnv.authUrl + '/svc/auth/account/' + req.username;
+        var url = global.appEnv.authUrl + '/svc/auth/account/id/' + encodeURIComponent(req.accountId);
 
         innerRequest.get(url, function (err, result) {
             if (err) {
@@ -56,13 +63,11 @@ function addOrUpdate(req, res, callback) {
 }
 
 function userInfo(req, res, callback) {
-    var username = req.username;
-
+    var accountId = req.accountId;
     var user = {};
-    var accountId = null;
 
     var doneCallback = callback;
-    async.series([_tryThirdPartyAccount, _accountId, _userByAccountId], function (err) {
+    async.series([_tryThirdPartyAccount, _userByAccountId], function (err) {
         if (err) {
             callback(err);
             return;
@@ -71,9 +76,9 @@ function userInfo(req, res, callback) {
         callback(null, {user: user});
     });
 
-    // 第三方未绑定帐号, user表中account_id为第三方登陆的username(openId)
+    // 第三方未绑定帐号, user表中account_id为第三方登陆的accountId(openId)
     function _tryThirdPartyAccount(callback) {
-        dao.userByAccountId(username, function (err, result) {
+        dao.userByAccountId(accountId, function (err, result) {
             if (err) {
                 callback(err);
                 return;
@@ -84,26 +89,6 @@ function userInfo(req, res, callback) {
                 return;
             }
 
-            callback(null);
-        });
-    }
-
-    function _accountId(callback) {
-        var url = global.appEnv.authUrl + '/svc/auth/account/' + username;
-
-        innerRequest.get(url, function (err, result) {
-            if (err) {
-                callback(err);
-                return;
-            }
-
-            if (_.isEmpty(result.account)) {
-                logger.warn('not found user account info username', username);
-                callback('not found user relate account info');
-                return;
-            }
-
-            accountId = result.account.id;
             callback(null);
         });
     }

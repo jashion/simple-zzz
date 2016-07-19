@@ -6,21 +6,88 @@
       "path": "/sendVCode",
       "realizeFile": "account",
       "realizeFunction": "sendVCode",
-      "method": "post"
+      "method": "post",
+      "comment": "发送验证码, 用于注册, 重置密码等",
+      "body": {
+        "phoneNumber": "string|required",
+        "reason": "string|required"
+      },
+      "res": {
+        "code": "number",
+        "result": {}
+      },
+      "bodyComment": {
+        "reason": "注册-register, 重置密码-resetPassword"
+      }
     },
     {
       "name": "register",
       "path": "/register",
       "realizeFile": "account",
       "realizeFunction": "register",
-      "method": "post"
+      "method": "post",
+      "comment": "手机注册",
+      "body": {
+        "username": "string|required",
+        "password": "string|required",
+        "code": "string",
+        "autoLogin": "boolean|default: false"
+      },
+      "res": {
+        "code": "number",
+        "result": {}
+      },
+      "bodyComment": {
+        "username": "手机号码",
+        "code": "短信验证码",
+        "autoLogin": "传值表明在注册后自动登陆, 接口会返回token"
+      }
+    },
+    {
+      "name": "mailRegister",
+      "path": "/mail/register",
+      "realizeFile": "account",
+      "realizeFunction": "mailRegister",
+      "method": "post",
+      "comment": "邮箱注册",
+      "body": {
+        "username": "string|required",
+        "password": "string|required",
+        "autoLogin": "boolean|default: false"
+      },
+      "res": {
+        "code": "number",
+        "result": {}
+      },
+      "bodyComment": {
+        "username": "邮箱地址",
+        "autoLogin": "传值表明在注册后自动登陆, 接口会返回token"
+      }
     },
     {
       "name": "login",
       "path": "/login",
       "realizeFile": "account",
       "realizeFunction": "login",
-      "method": "post"
+      "method": "post",
+      "comment": "登录",
+      "body": {
+        "username": "string|required",
+        "password": "string|required",
+        "duration": "number|default: 3600 * 24 * 30"
+      },
+      "res": {
+        "code": "number",
+        "result": {
+          "accountId": "string",
+          "expireTime": "number",
+          "token": "string",
+          "isTemporary": "boolean"
+        }
+      },
+      "bodyComment": {
+        "duration": "单位秒"
+      }
     },
     {
       "name": "logout",
@@ -32,7 +99,13 @@
         {
           "name": "authCheck"
         }
-      ]
+      ],
+      "comment": "登出",
+      "body": {},
+      "res": {
+        "code": "number",
+        "result": {}
+      }
     },
     {
       "name": "updatePassword",
@@ -45,7 +118,20 @@
           "name": "authCheck"
         }
       ],
-      "desc": "登陆状态下使用老密码修改密码"
+      "comment": "修改密码",
+      "body": {
+        "username": "string|required",
+        "oldPassword": "string|required",
+        "newPassword": "string|required",
+        "reLogin": "string|default: true"
+      },
+      "res": {
+        "code": "number",
+        "result": {}
+      },
+      "bodyComment": {
+        "reLogin": "修改密码后, 之前的token会失效, 可选择重新登录"
+      }
     },
     {
       "name": "resetPassword",
@@ -53,20 +139,57 @@
       "realizeFile": "account",
       "realizeFunction": "resetPassword",
       "method": "post",
-      "desc": "手机帐号通过验证码重置密码"
+      "comment": "重置密码",
+      "body": {
+        "username": "string|required",
+        "password": "string|required",
+        "code": "string|required"
+      },
+      "res": {
+        "code": "number",
+        "result": {}
+      }
     },
     {
-      "name": "loginInfo",
-      "path": "/loginInfo",
+      "name": "tokenInfo",
+      "path": "/token",
       "realizeFile": "account",
-      "realizeFunction": "loginInfo",
+      "realizeFunction": "tokenInfo",
       "method": "get",
       "middleware": [
         {
           "name": "authCheck"
         }
       ],
-      "desc": "获取登陆信息"
+      "comment": "获取登陆信息",
+      "res": {
+        "code": "number",
+        "result": {
+          "accountId": "string",
+          "expireTime": "number",
+          "token": "string",
+          "isTemporary": "boolean"
+        }
+      }
+    },
+    {
+      "name": "deleteAccount",
+      "path": "/account/delete",
+      "realizeFile": "account",
+      "realizeFunction": "deleteAccount",
+      "method": "post",
+      "middleware": [
+        {
+          "name": "authCheck"
+        }
+      ],
+      "comment": "删除帐号",
+      "res": {
+        "code": "number",
+        "result": {
+          "accountId": "string"
+        }
+      }
     }
   ]
 }
