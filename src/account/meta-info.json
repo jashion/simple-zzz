@@ -1,6 +1,6 @@
 {
   "initial": "",
-  "serviceList": [
+  "service": [
     {
       "name": "sendVCode",
       "path": "/sendVCode",
