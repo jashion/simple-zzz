@@ -47,6 +47,7 @@ duration: 单位秒
 * `comment`: 登出
 * `url`: /logout
 * `method`: post
+* `middleware`: [authCheck]
 * `body`: [object Object]
 * `res`: {code: number, result: {}}
 
@@ -54,6 +55,7 @@ duration: 单位秒
 * `comment`: 修改密码
 * `url`: /password/update
 * `method`: post
+* `middleware`: [authCheck]
 * `body`: {username: string|required, oldPassword: string|required, newPassword: string|required, reLogin: string|default: true}
 ```
 reLogin: 修改密码后, 之前的token会失效, 可选择重新登录
@@ -71,10 +73,12 @@ reLogin: 修改密码后, 之前的token会失效, 可选择重新登录
 * `comment`: 获取登陆信息
 * `url`: /token
 * `method`: get
+* `middleware`: [authCheck]
 * `res`: {code: number, result: {accountId: string, expireTime: number, token: string, isTemporary: boolean}}
 
 ## deleteAccount
 * `comment`: 删除帐号
 * `url`: /account/delete
 * `method`: post
+* `middleware`: [authCheck]
 * `res`: {code: number, result: {accountId: string}}
