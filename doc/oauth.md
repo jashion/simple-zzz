@@ -42,5 +42,12 @@ isBound: 是否已绑定平台帐号
 * `comment`: 第三方帐号绑定
 * `url`: /oauth/thirdParty/bind
 * `method`: post
-* `body`: {openId: string|required, openIdToken: string|required, accountId: string|required, accountIdToken: string|required}
+* `body`: {openId: string|required, token4OpenId: string|required, accountId: string|required, token4AccountId: string|required}
+* `res`: {code: number, result: {}}
+
+## thirdPartyUnbind
+* `comment`: 第三方帐号解除绑定
+* `url`: /oauth/thirdParty/unbind
+* `method`: post
+* `body`: {openId: string|required}
 * `res`: {code: number, result: {}}

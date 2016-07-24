@@ -8,6 +8,7 @@ exports.wechatLogin = wechatLogin;
 exports.webWechatLogin = webWechatLogin;
 exports.wechatCallback = wechatCallback;
 exports.thirdPartyBind = thirdPartyBind;
+exports.thirdPartyUnbind = thirdPartyUnbind;
 
 function wechatEnableDevMode(req, res, callback) {
     if (!validate(req.query.signature, req.query.timestamp, req.query.nonce)) {
@@ -48,7 +49,15 @@ function wechatCallback(req, res, callback) {
 }
 
 function thirdPartyBind(req, res, callback) {
-    var url = global.appEnv.authUrl + '/svc/auth//thirdParty/bind';
+    var url = global.appEnv.authUrl + '/svc/auth/thirdParty/bind';
+    innerRequest.post(url, req.body, callback);
+}
+
+function thirdPartyUnbind(req, res, callback) {
+    req.body.accountId = req.accountId;
+    req.body.token4Account = req.headers['x-token'] || req.body.token || req.query.token;
+
+    var url = global.appEnv.authUrl + '/svc/auth/thirdParty/unbind';
     innerRequest.post(url, req.body, callback);
 }
 

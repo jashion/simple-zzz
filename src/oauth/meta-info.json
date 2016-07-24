@@ -86,9 +86,29 @@
       "comment": "第三方帐号绑定",
       "body": {
         "openId": "string|required",
-        "openIdToken": "string|required",
+        "token4OpenId": "string|required",
         "accountId": "string|required",
-        "accountIdToken": "string|required"
+        "token4AccountId": "string|required"
+      },
+      "res": {
+        "code": "number",
+        "result": {}
+      }
+    },
+    {
+      "name": "thirdPartyUnbind",
+      "path": "/oauth/thirdParty/unbind",
+      "realizeFile": "oauth",
+      "realizeFunction": "thirdPartyUnbind",
+      "method": "post",
+      "middleware": [
+        {
+          "name": "authCheck"
+        }
+      ],
+      "comment": "第三方帐号解除绑定",
+      "body": {
+        "openId": "string|required"
       },
       "res": {
         "code": "number",
