@@ -7,6 +7,7 @@ var async = require('async');
 
 exports.addOrUpdate = addOrUpdate;
 exports.userInfo = userInfo;
+exports.uploadPortrait = uploadPortrait;
 
 function addOrUpdate(req, res, callback) {
     var user = req.body.user;
@@ -107,4 +108,23 @@ function userInfo(req, res, callback) {
             callback(null);
         });
     }
+}
+
+function uploadPortrait(req, res, callback) {
+    var ossUrl = req.file.ossUrl;
+    var accountId = req.accountId;
+
+    var user = {
+        account_id: accountId,
+        head_portrait: ossUrl
+    };
+
+    dao.updateByAccountId(user, function (err) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        callback(null, {head_portrait: user.head_portrait});
+    });
 }

@@ -4,6 +4,7 @@ var model = require('./index');
 exports.newUser = newUser;
 exports.updateUser = updateUser;
 exports.userByAccountId = userByAccountId;
+exports.updateByAccountId = updateByAccountId;
 
 function newUser(user, callback) {
     user.created_at = Date.now();
@@ -21,4 +22,11 @@ function updateUser(user, callback) {
 
 function userByAccountId(accountId, callback) {
     dataUtils.query('user', {account_id: accountId}, callback);
+}
+
+function updateByAccountId(user, callback) {
+    delete user.created_at;
+    user.updated_at = Date.now();
+
+    dataUtils.updateObj2DB('user', user, model.table2Fields('user'), ['account_id'], callback);
 }

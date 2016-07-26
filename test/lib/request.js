@@ -6,6 +6,7 @@ var assert = require('assert');
 
 exports.get = get;
 exports.post = post;
+exports.postFormData = postFormData;
 
 function get(url, options, callback) {
     if (_.isFunction(options)) {
@@ -40,6 +41,30 @@ function post(url, data, options, callback) {
         method: 'POST',
         uri: fullUrl(url),
         body: data,
+        json: true
+    }, options);
+
+    request(options, function (err, res, body) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        assert(res.statusCode === 200, 'status is not 200');
+        callback(null, body);
+    });
+}
+
+function postFormData(url, formData, options, callback) {
+    if (_.isFunction(options)) {
+        callback = options;
+        options = {};
+    }
+
+    options = _.assign({
+        method: 'POST',
+        uri: fullUrl(url),
+        formData: formData,
         json: true
     }, options);
 

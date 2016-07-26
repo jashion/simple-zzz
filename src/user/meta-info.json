@@ -26,7 +26,11 @@
       "res": {
         "code": "number",
         "result": {
-          "user": {}
+          "user": {
+            "id": "string",
+            "nickname": "string",
+            "head_portrait": "string"
+          }
         }
       }
     },
@@ -36,6 +40,7 @@
       "realizeFile": "user",
       "realizeFunction": "userInfo",
       "method": "get",
+      "comment": "获取用户信息",
       "middleware": [
         {
           "name": "authCheck"
@@ -44,7 +49,33 @@
       "res": {
         "code": "number",
         "result": {
-          "user": {}
+          "user": {
+            "id": "string",
+            "nickname": "string",
+            "head_portrait": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "uploadPortrait",
+      "path": "/user/portrait/upload",
+      "realizeFile": "user",
+      "realizeFunction": "uploadPortrait",
+      "method": "post",
+      "comment": "用户头像上传, multipart/form-data方式, 'curl -F file=@file.jpg url'",
+      "middleware": [
+        {
+          "name": "authCheck"
+        },
+        {
+          "name": "ossUpload"
+        }
+      ],
+      "res": {
+        "code": "number",
+        "result": {
+          "head_portrait": "string"
         }
       }
     }

@@ -3,6 +3,7 @@ var assert = require('assert');
 var _ = require('lodash');
 var util = require('util');
 var async = require('async');
+var fs = require('fs');
 
 describe('user', function () {
     before(function (callback) {
@@ -106,6 +107,30 @@ describe('user', function () {
                 assert(!_.isEmpty(body.result.user), 'user is empty');
                 assert(!_.isEmpty(body.result.user.id), 'user id is empty');
                 assert(body.result.user.nickname === testConfig.mockData.nickname, 'nickname is not right');
+                done(null);
+            });
+        });
+    });
+
+    describe('/user/portrait/upload', function () {
+        it('normal', function (done) {
+            var options = {
+                headers: {
+                    'x-token': testConfig.mockData.token
+                }
+            };
+            var formData = {
+                file: fs.createReadStream(__dirname + '/asset/girl.jpg')
+            };
+
+            request.postFormData('/user/portrait/upload', formData, options, function (err, body) {
+                if (err) {
+                    done(err);
+                    return;
+                }
+
+                assert(body.code === 0, 'code is not 0');
+                assert(!_.isEmpty(body.result.head_portrait), 'head_portrait is empty');
                 done(null);
             });
         });
