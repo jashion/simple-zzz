@@ -20,46 +20,27 @@ function addOrUpdate(req, res, callback) {
     var isUpdate = !isNew;
     var accountId = req.accountId;
 
-    async.series([_accountId, _newOrUpdate], function (err) {
+    if (isNew) {
+        user.id = uuid.v4();
+        user.account_id = accountId;
+        dao.newUser(user, _done);
+        return;
+    }
+
+    if (isUpdate) {
+        dao.updateUser(user, _done);
+        return;
+    }
+
+    callback('do nothing');
+
+    function _done(err) {
         if (err) {
             callback(err);
             return;
         }
 
         callback(null, {user: user});
-    });
-
-    function _accountId(callback) {
-        var url = global.appEnv.authUrl + '/svc/auth/account/id/' + encodeURIComponent(req.accountId);
-
-        innerRequest.get(url, function (err, result) {
-            if (err) {
-                callback(err);
-                return;
-            }
-
-            if (!_.isEmpty(result.account)) {
-                accountId = result.account.id;
-            }
-
-            callback(null);
-        });
-    }
-
-    function _newOrUpdate(callback) {
-        if (isNew) {
-            user.id = uuid.v4();
-            user.account_id = accountId;
-            dao.newUser(user, callback);
-            return;
-        }
-
-        if (isUpdate) {
-            dao.updateUser(user, callback);
-            return;
-        }
-
-        callback('do nothing');
     }
 }
 
