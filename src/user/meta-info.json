@@ -63,7 +63,7 @@
       "realizeFile": "user",
       "realizeFunction": "uploadPortrait",
       "method": "post",
-      "comment": "用户头像上传, multipart/form-data方式, 'curl -F file=@file.jpg url'",
+      "comment": "用户头像上传, multipart/form-data方式",
       "middleware": [
         {
           "name": "authCheck"
