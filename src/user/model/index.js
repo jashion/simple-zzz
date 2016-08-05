@@ -1,5 +1,5 @@
 var TYPE = require('sequelize');
-var sequelizeWrap = require('../../lib/sequelizeWrap');
+var sequelizeUtil = require(global.frameworkLibPath + '/utils/sequelize');
 var _ = require('lodash');
 
 var table2Schema = {
@@ -14,10 +14,6 @@ var table2Schema = {
     }
 };
 
-sequelizeWrap.define('user', table2Schema.user);
+exports.table2Fields = sequelizeUtil.table2Fields;
 
-exports.table2Fields = table2Fields;
-
-function table2Fields(tableName) {
-    return _.keys(table2Schema[tableName]);
-}
+sequelizeUtil.define('user', table2Schema.user);
