@@ -1,6 +1,6 @@
 var _ = require('lodash');
 var async = require('async');
-var innerRequest = require(global.frameworkLibPath + '/utils/innerRequest');
+var innerRequest = require(global.frameworkLibPath + '/util/innerRequest');
 
 exports.sendVCode = sendVCode;
 exports.register = register;

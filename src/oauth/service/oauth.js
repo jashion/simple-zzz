@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 var _ = require('lodash');
 var queryString = require('querystring');
-var innerRequest = require(global.frameworkLibPath + '/utils/innerRequest');
+var innerRequest = require(global.frameworkLibPath + '/util/innerRequest');
 
 exports.wechatEnableDevMode = wechatEnableDevMode;
 exports.wechatLogin = wechatLogin;
