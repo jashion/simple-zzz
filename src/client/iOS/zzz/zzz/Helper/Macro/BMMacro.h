@@ -66,6 +66,12 @@ BM_EXTERN_C_BEGIN
     #endif
 #endif
 
+#ifdef DEBUG
+    #define NSLog(...) NSLog(@"%s 第%d行 \n %@\n\n", __func__, __LINE__, [NSString stringWithFormat: __VA_ARGS__])
+#else
+    #define NSLog(...) {}
+#endif
+
 //Return a dispatch_time delay from now.
 static inline dispatch_time_t dispatch_time_delay(NSTimeInterval second) {
     return dispatch_time(DISPATCH_TIME_NOW, (int64_t)(second * NSEC_PER_SEC));
