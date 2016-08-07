@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BMUtility.h"
 #import "BMPhotosLayoutView.h"
 
 #define PostProfileSize     CGSizeMake(kScreenWidth, 60)

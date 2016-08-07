@@ -55,7 +55,7 @@
     }
     
     _photoContainer = [[BMPhotosLayoutView alloc] initWithFrame: CGRectMake(0, 0, frame.size.width, frame.size.width) photos: @[] layoutType: BMFivePhotoPointToPointBottomLayout];
-    _photoContainer.tapPhotoBlock = ^(NSArray *photos, NSInteger currentIndex){
+    _photoContainer.tapPhotoBlock = ^(NSArray *photos, NSInteger currentIndex, BMPhotosLayoutView *photoLayoutView){
         NSLog(@"currentIndex: %ld", currentIndex);
     };
     [self addSubview: _photoContainer];

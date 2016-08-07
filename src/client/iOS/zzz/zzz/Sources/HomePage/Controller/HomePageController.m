@@ -11,6 +11,8 @@
 #import "HomePageCell.h"
 #import "UIView+BMAddition.h"
 
+#define HomePageTest
+
 typedef NS_ENUM(NSUInteger, TableViewScrollDirection) {
     TableViewScrollDirectionUp,
     TableViewScrollDirectionDown
@@ -25,9 +27,6 @@ typedef NS_ENUM(NSUInteger, TableViewScrollDirection) {
 @end
 
 @implementation HomePageController
-{
-    NSArray *photos;
-}
 
 #pragma mark - LifeCycle
 
@@ -35,44 +34,56 @@ typedef NS_ENUM(NSUInteger, TableViewScrollDirection) {
     self = [super init];
     if (self) {
         self.navigationItem.title = @"绒么么";
-//        _homePageDataArray = @[].mutableCopy;
-//        for (NSInteger index = 0; index < 14; index++) {
-//            [_homePageDataArray addObject: @(index)];
-//        }
+        _homePageDataArray = [@[] mutableCopy];
+
+#ifdef HomePageTest
+        NSArray *photos = @[@{@"photos" : @[[UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(0)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(1)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(2)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(3)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(4)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(5)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(6)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(7)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(8)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(9)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(10)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(11)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(12)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(13)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(14)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(15)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(16)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(17)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(18)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(19)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(20)},
+                            @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
+                              @"type"   : @(21)}];
+        [_homePageDataArray addObjectsFromArray: photos];
         
-        photos = @[@{@"photos" : @[[UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(0)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(1)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(2)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(3)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(4)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(5)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(6)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(7)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(8)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(9)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(10)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(11)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(12)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(13)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(14)},
-                   @{@"photos" : @[[UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"], [UIImage imageNamed: @"cat.jpg"]],
-                     @"type"   : @(15)}];
-        _homePageDataArray = [[NSMutableArray alloc] initWithArray: photos];
+#endif
     }
     return self;
 }
