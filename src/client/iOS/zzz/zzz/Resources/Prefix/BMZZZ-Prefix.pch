@@ -1,0 +1,19 @@
+//
+//  BMZZZ-Prefix.pch
+//  zzz
+//
+//  Created by jashion on 16/7/18.
+//  Copyright © 2016年 BMu. All rights reserved.
+//
+
+#ifndef BMZZZ_Prefix_pch
+#define BMZZZ_Prefix_pch
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "BMMacro.h"
+#import "BMUtility.h"
+#endif
+
+#endif /* BMZZZ_Prefix_pch */
