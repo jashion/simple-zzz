@@ -1,0 +1,83 @@
+{
+  "initial": "initial/index",
+  "service": [
+    {
+      "name": "addOrUpdateUser",
+      "path": "/user/addOrUpdate",
+      "realizeFile": "user",
+      "realizeFunction": "addOrUpdate",
+      "method": "post",
+      "middleware": [
+        {
+          "name": "authCheck"
+        }
+      ],
+      "comment": "添加或更新用户信息",
+      "body": {
+        "user": {
+          "id": "string|default: ''",
+          "nickname": "string|default: ''",
+          "head_portrait": "string|default: ''"
+        }
+      },
+      "bodyComment": {
+        "user": "when id is empty then new else update by id"
+      },
+      "res": {
+        "code": "number",
+        "result": {
+          "user": {
+            "id": "string",
+            "nickname": "string",
+            "head_portrait": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "userInfo",
+      "path": "/user",
+      "realizeFile": "user",
+      "realizeFunction": "userInfo",
+      "method": "get",
+      "comment": "获取用户信息",
+      "middleware": [
+        {
+          "name": "authCheck"
+        }
+      ],
+      "res": {
+        "code": "number",
+        "result": {
+          "user": {
+            "id": "string",
+            "nickname": "string",
+            "head_portrait": "string"
+          }
+        }
+      }
+    },
+    {
+      "name": "uploadPortrait",
+      "path": "/user/portrait/upload",
+      "realizeFile": "user",
+      "realizeFunction": "uploadPortrait",
+      "method": "post",
+      "comment": "用户头像上传, multipart/form-data方式",
+      "middleware": [
+        {
+          "name": "authCheck"
+        },
+        {
+          "name": "ossUpload"
+        }
+      ],
+      "res": {
+        "code": "number",
+        "result": {
+          "head_portrait": "string"
+        }
+      }
+    }
+  ]
+}

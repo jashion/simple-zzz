@@ -1,13 +1,16 @@
 var crypto = require('crypto');
 var _ = require('lodash');
 var queryString = require('querystring');
-var innerRequest = require(global.frameworkLibPath + '/utils/innerRequest');
+var innerRequest = require(global.frameworkLibPath + '/util/innerRequest');
 
-exports.enableDevMode = enableDevMode;
-exports.oauthLogin = oauthLogin;
-exports.oauthCallback = oauthCallback;
+exports.wechatEnableDevMode = wechatEnableDevMode;
+exports.wechatLogin = wechatLogin;
+exports.webWechatLogin = webWechatLogin;
+exports.wechatCallback = wechatCallback;
+exports.thirdPartyBind = thirdPartyBind;
+exports.thirdPartyUnbind = thirdPartyUnbind;
 
-function enableDevMode(req, res, callback) {
+function wechatEnableDevMode(req, res, callback) {
     if (!validate(req.query.signature, req.query.timestamp, req.query.nonce)) {
         callback('validate failure');
         return;
@@ -16,54 +19,46 @@ function enableDevMode(req, res, callback) {
     res.send(req.query.echostr);
 }
 
-function oauthLogin(req, res, callback) {
-    var thirdParty = req.params.thirdParty;
+function wechatLogin(req, res, callback) {
+    var url = global.appEnv.authUrl + '/svc/auth/thirdParty/wechat/login';
 
-    switch (thirdParty) {
-        case 'wechat':
-            _wechatLogin();
-            break;
-
-        default:
-            callback('unknown third party');
-    }
-
-    function _wechatLogin() {
-        var loginUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + queryString.stringify({
-                appid: global.wechatOauth.appId,
-                redirect_uri: global.wechatOauth.callbackUrl, // todo keep query string
-                response_type: 'code',
-                scope: 'snsapi_userinfo',
-                state: 'state'
-            }) + '#wechat_redirect';
-
-        res.redirect(loginUrl);
-    }
+    innerRequest.post(url, req.body, callback);
 }
 
-function oauthCallback(req, res, callback) {
-    var thirdParty = req.params.thirdParty;
+function webWechatLogin(req, res, callback) {
+    var loginUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?' + queryString.stringify({
+            appid: global.wechatOauth.appId,
+            redirect_uri: global.wechatOauth.callbackUrl, // todo keep query string
+            response_type: 'code',
+            scope: 'snsapi_userinfo',
+            state: 'state'
+        }) + '#wechat_redirect';
 
-    switch (thirdParty) {
-        case 'wechat':
-            _wechatCallback();
-            break;
+    res.redirect(loginUrl);
+}
 
-        default:
-            callback('unknown third party');
-    }
+function wechatCallback(req, res, callback) {
+    // todo avoid client back history, the code is invalid.
+    var url = global.appEnv.authUrl + '/svc/auth/thirdParty/wechat/userInfo?' + queryString.stringify({
+            code: req.query.code,
+            appId: global.wechatOauth.appId,
+            secret: global.wechatOauth.secret
+        });
 
-    function _wechatCallback() {
-        // todo avoid client back history, the code is invalid.
+    innerRequest.get(url, callback);
+}
 
-        var url = global.appEnv.authUrl + '/svc/auth/wechat/userInfo?' + queryString.stringify({
-                code: req.query.code,
-                appId: global.wechatOauth.appId,
-                secret: global.wechatOauth.secret
-            });
+function thirdPartyBind(req, res, callback) {
+    var url = global.appEnv.authUrl + '/svc/auth/thirdParty/bind';
+    innerRequest.post(url, req.body, callback);
+}
 
-        innerRequest.get(url, callback);
-    }
+function thirdPartyUnbind(req, res, callback) {
+    req.body.accountId = req.accountId;
+    req.body.token4Account = req.headers['x-token'] || req.body.token || req.query.token;
+
+    var url = global.appEnv.authUrl + '/svc/auth/thirdParty/unbind';
+    innerRequest.post(url, req.body, callback);
 }
 
 function validate(signature, timestamp, nonce) {

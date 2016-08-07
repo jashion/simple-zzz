@@ -1,65 +1,84 @@
-# 帐号相关接口说明
+#account
 
 ## sendVCode
-* 发送验证码, 用于注册, 重置密码等
-* url: /svc/zzz/sendVCode
-* method: POST
-* body: {phoneNumber: string, reason: string}  
+* `comment`: 发送验证码, 用于注册, 重置密码等
+* `url`: /sendVCode
+* `method`: post
+* `body`: {phoneNumber: string|required, reason: string|required}
 ```
-    reason: 注册-register, 重置密码-resetPassword
+reason: 注册-register, 重置密码-resetPassword
 ```
-* res: {code, result}  
-```
-    所有的请求code为0时表示成功, 其他均为失败(其他接口不再说明该点)
-```
+* `res`: {code: number, result: {}}
 
 ## register
-* 注册, 支持手机号码+验证码或邮箱
-* url: /svc/zzz/register
-* method: POST
-* body: {code: string|option, username: string, password: string, autoLogin: boolean|option}  
+* `comment`: 手机注册
+* `url`: /register
+* `method`: post
+* `body`: {username: string|required, password: string|required, code: string, autoLogin: boolean|default: false}
 ```
-    username: 手机号码时需要code, 邮箱不需要code  
-    autoLogin: 传值表明在注册后自动登陆, 接口会返回token
+username: 手机号码
+code: 短信验证码
+autoLogin: 传值表明在注册后自动登陆, 接口会返回token
 ```
-* res: {code, result}
+* `res`: {code: number, result: {}}
+
+## mailRegister
+* `comment`: 邮箱注册
+* `url`: /mail/register
+* `method`: post
+* `body`: {username: string|required, password: string|required, autoLogin: boolean|default: false}
+```
+username: 邮箱地址
+autoLogin: 传值表明在注册后自动登陆, 接口会返回token
+```
+* `res`: {code: number, result: {}}
 
 ## login
-* 登陆, 支持多设备
-* url: /svc/zzz/login
-* method: POST
-* body: {username: string, password: string, deviceId: string|option, deviceType: string|option, duration: number|option, kickOut: boolean|option}  
-```    
-    duration: 登陆有效时长, 单位秒  
-    kickOut: 传值表明将其他同类型设备踢出
+* `comment`: 登录
+* `url`: /login
+* `method`: post
+* `body`: {username: string|required, password: string|required, duration: number|default: 3600 * 24 * 30}
 ```
-* res: {code, result: {token: string}}
+duration: 单位秒
+```
+* `res`: {code: number, result: {accountId: string, expireTime: number, token: string, isTemporary: boolean}}
 
 ## logout
-* 登出
-* url: /svc/zzz/logout
-* method: POST
-* body: {}
-* res: {code, result}
-* auth: authToken  
-```
-    授权才能调用的接口, 需要在请求头中附带x-token
-```
+* `comment`: 登出
+* `url`: /logout
+* `method`: post
+* `middleware`: [authCheck]
+* `body`: [object Object]
+* `res`: {code: number, result: {}}
 
 ## updatePassword
-* 登陆状态下使用老密码修改密码
-* url: /svc/zzz/password/update
-* method: POST
-* body: {oldPassword: string, newPassword: string}
-* res: {code, result}
-* auth: authToken
+* `comment`: 修改密码
+* `url`: /password/update
+* `method`: post
+* `middleware`: [authCheck]
+* `body`: {username: string|required, oldPassword: string|required, newPassword: string|required, reLogin: string|default: true}
+```
+reLogin: 修改密码后, 之前的token会失效, 可选择重新登录
+```
+* `res`: {code: number, result: {}}
 
 ## resetPassword
-* 手机帐号通过验证码重置密码
-* url: /svc/zzz/password/reset
-* method: POST
-* body: {username: string, password: string, code: string}
-* res: {code, result}
-```
-    先使用sendVCode发送验证码, reason为resetPassword
-```
+* `comment`: 重置密码
+* `url`: /password/reset
+* `method`: post
+* `body`: {username: string|required, password: string|required, code: string|required}
+* `res`: {code: number, result: {}}
+
+## tokenInfo
+* `comment`: 获取登陆信息
+* `url`: /token
+* `method`: get
+* `middleware`: [authCheck]
+* `res`: {code: number, result: {accountId: string, expireTime: number, token: string, isTemporary: boolean}}
+
+## deleteAccount
+* `comment`: 删除帐号
+* `url`: /account/delete
+* `method`: post
+* `middleware`: [authCheck]
+* `res`: {code: number, result: {accountId: string}}
